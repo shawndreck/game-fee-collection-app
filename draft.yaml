@@ -1,0 +1,30 @@
+models:
+  Collection:
+    amount: integer unsigned default:0
+    players: integer unsigned default:11
+  Payment:
+    collection_id: id
+    name: string
+    amount: smallint default:0
+
+controllers:
+  Collection:
+    new:
+      render: collection.new
+    store:
+      validate: amount, players
+
+  Payment:
+    new:
+      render: payment.new with:payment
+    store:
+      validate: name, amount, collection_id
+      save: payment
+      flash: payment.name
+      redirect: payment.new
+
+  UnsettledPayment:
+    index:
+      render: unsettled-payment.index with:collection
+
+seeders: Payment, Collection

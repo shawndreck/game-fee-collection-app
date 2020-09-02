@@ -1,0 +1,58 @@
+version: "3.7"
+services:
+  # Database
+  db:
+    image: mysql:5.7
+    container_name: tools_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+    ports:
+      - 3306:3306
+    networks:
+      - tools
+
+
+  #Web server
+  nginx:
+    image: nginx:1.17-alpine
+    container_name: tools_nginx
+    depends_on:
+      - db
+    restart: always
+    ports:
+      - "80:80"
+      - "8000:80"
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d
+    networks:
+      - tools
+
+  # App
+  app:
+    build:
+      args:
+        user: maxwell
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: tools-image
+    container_name: tools_app
+    depends_on:
+      - nginx
+      - db
+
+    restart: always
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+        - tools
+
+networks:
+  tools:
+    driver: bridge

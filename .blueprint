@@ -1,0 +1,22 @@
+created:
+    - database/migrations/2020_09_02_073442_create_collections_table.php
+    - database/migrations/2020_09_02_073443_create_payments_table.php
+    - app/Collection.php
+    - app/Payment.php
+    - database/factories/CollectionFactory.php
+    - database/factories/PaymentFactory.php
+    - database/seeds/PaymentSeeder.php
+    - database/seeds/CollectionSeeder.php
+    - app/Http/Controllers/CollectionController.php
+    - app/Http/Controllers/PaymentController.php
+    - app/Http/Controllers/UnsettledPaymentController.php
+    - resources/views/unsettled-payment/index.blade.php
+    - tests/Feature/Http/Controllers/CollectionControllerTest.php
+    - tests/Feature/Http/Controllers/PaymentControllerTest.php
+    - tests/Feature/Http/Controllers/UnsettledPaymentControllerTest.php
+updated:
+    - routes/web.php
+models:
+    User: {  }
+    Collection: { amount: 'integer unsigned default:0', players: 'integer unsigned default:11' }
+    Payment: { collection_id: id, name: string, amount: 'smallint default:0' }
