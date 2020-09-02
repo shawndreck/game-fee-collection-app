@@ -31,6 +31,6 @@ class PaymentController extends Controller
 
         $request->session()->flash('payment.name', $payment->name);
 
-        return redirect()->route('payment.new');
+        return redirect()->route('payment.new', $payment->collection);
     }
 }

@@ -16,10 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome')->name('home');
 
 
-Route::resource('collection', 'CollectionController')->only('store');
+Route::resource('collection', 'CollectionController')->only(['store', 'show']);
 Route::get('collection/new', 'CollectionController@new')->name('collection.new');
 
-Route::resource('payment', 'PaymentController')->only('store');
+Route::resource('payment', 'PaymentController')->only(['store','update', 'destroy']);
+Route::get('payment/{payment}/edit', 'PaymentController@edit')->name('payment.edit');
 Route::get('collection/{collection}/payment/new', 'PaymentController@new')->name('payment.new');
 
-Route::resource('unsettled-payment', 'UnsettledPaymentController')->only('index');
+Route::resource('collection/{collection}/unsettled-payment', 'UnsettledPaymentController')->only('index');

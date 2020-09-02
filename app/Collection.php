@@ -27,6 +27,18 @@ class Collection extends Model
 
     public function perPlayer()
     {
-        return $this->amount / ($this->players ?? 1);
+        return round($this->amount / ($this->players ?? 1), 2);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+    public function amountCollected()
+    {
+        return round($this->payments()->sum('amount'), 2);
     }
 }
