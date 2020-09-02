@@ -3,10 +3,19 @@
 @section('content')
 <div class="container max-w-md px-4 mx-auto py-8">
 
-    <h1 class="text-2xl mb-6">Unsettled payments
-        <span
-            class="text-xs px-2 py-1 text-orange-400 rounded-full font-bold align-middle bg-orange-200">{{ $payments->count() }}</span>
-    </h1>
+    <div class="flex mb-6">
+        <div>
+            <h1 class="text-2xl">List of payments </h1>
+            <span class="text-xs px-2 py-1 text-orange-400 font-bold">
+                {{ $payments->count() }}/{{ $collection->players }}
+                collected
+            </span>
+            <span class="text-xs text-orange-400 font-bold">(RM{{ $collection->amountRemaining() }} remaining)</span>
+        </div>
+        <div class="text-right pl-4 flex-1 text-sm mt-2">
+            <a href="{{ route('collection.edit', $collection) }}" class="underline text-blue-600">edit</a>
+        </div>
+    </div>
 
     <table class="w-full border border-orange-200 mb-6">
         <thead class="bg-orange-200 text-orange-400 ">
@@ -34,12 +43,33 @@
                 <td>
                     <div class="flex flex-no-wrap">
                         <a href="{{ route('payment.edit', $payment) }}" class="btn px-2 py-1">edit</a>
-                        <a href="{{ route('payment.destroy', $payment) }}"
-                            class="btn px-2 py-1 bg-transparent text-red-500">delete</a>
+
+                        <form action="{{ route('payment.destroy', $payment) }}" method="POST">
+                            @csrf
+                            @method('delete')
+
+                            <button type="submit" class="btn px-2 py-1 bg-transparent text-red-500">delete</button>
+                        </form>
                     </div>
                 </td>
             </tr>
             @endforeach
+
+            @if($payments->count())
+            <tr class="bg-white">
+                <td colspan="2" class="p-3 bg-white">
+                    <div>TOTAL</div>
+                </td>
+                <td>
+                    <div class="font-bold">
+                        <span class="text-xs">RM</span>
+                        <span class="text-xl">
+                            {{ $payments->sum('amount')}}
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            @endif
 
             @unless($payments->count())
             <tr>
@@ -48,6 +78,8 @@
                 </td>
             </tr>
             @endif
+
+
 
             @if($collection->players > $payments->count())
 
@@ -60,9 +92,5 @@
         </tbody>
     </table>
 
-    <div class="text-right text-sm text-orange-500 underline">
-
-        <a href="{{ route('collection.show', $collection) }}" class=""> > View full list</a>
-    </div>
 </div>
 @endsection

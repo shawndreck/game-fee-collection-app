@@ -8,6 +8,8 @@
 
         <form action="{{ route('collection.store') }}" method="POST">
             @csrf
+
+            <input type="hidden" name="id" value="{{ $collection->id }}">
             <x-collection.edit :collection=$collection />
 
             <button

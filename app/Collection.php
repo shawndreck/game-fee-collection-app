@@ -41,4 +41,14 @@ class Collection extends Model
     {
         return round($this->payments()->sum('amount'), 2);
     }
+
+    public function unsettledPayments()
+    {
+        return $this->payments()->where('amount', '<>', $this->perPlayer());
+    }
+
+    public function amountRemaining()
+    {
+        return $this->amount - $this->payments()->sum('amount');
+    }
 }

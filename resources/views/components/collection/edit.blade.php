@@ -10,8 +10,6 @@
             class="block rounded-sm border border-orange-200 px-3 py-2" x-model='amount' required>
 
         @error('amount') <p class="text-red-500">{{ $message }}</p> @enderror
-
-        {{ $collection->amount }}
     </div>
 
     {{--  PLAYERS --}}
@@ -24,7 +22,6 @@
 
         @error('players') <p class="text-red-500">{{ $message }}</p> @enderror
 
-        {{ $collection->players }}
     </div>
 
     <div class="mb-6">

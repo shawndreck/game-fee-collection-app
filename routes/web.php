@@ -16,8 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome')->name('home');
 
 
-Route::resource('collection', 'CollectionController')->only(['store', 'show']);
+Route::resource('collection', 'CollectionController')->only(['store', 'show', 'update']);
 Route::get('collection/new', 'CollectionController@new')->name('collection.new');
+Route::get('collection/{collection}/edit', 'CollectionController@edit')->name('collection.edit');
 
 Route::resource('payment', 'PaymentController')->only(['store','update', 'destroy']);
 Route::get('payment/{payment}/edit', 'PaymentController@edit')->name('payment.edit');

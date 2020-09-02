@@ -19,7 +19,8 @@
             <span class="text-xs">/{{ $collection->amount }}</span>
         </div>
 
-        <span class="text-xs">{{ $collection->payments()->count()  }}/{{ $collection->players }} players have paid</span>
+        <span class="text-xs">{{ $collection->payments()->count()  }}/{{ $collection->players }} players have
+            paid</span>
     </div>
 
 
@@ -33,7 +34,7 @@
             <input type="text" inputmode="latin-name" value="{{ old('name', $payment->name) }}" class="form-input"
                 name="name" required>
 
-                @error('name') <p class="text-red-500">{{ $message }}</p> @enderror
+            @error('name') <p class="text-red-500">{{ $message }}</p> @enderror
         </div>
 
         {{-- AMOUNT --}}
@@ -41,7 +42,7 @@
             <div class="w-1/2 overflow-hidden px-2">
                 <label for="amount" class="font-bold text-sm">AMOUNT RECEIVED</label>
                 <input type="text" inputmode="latin-amount" value="{{ old('amount', $payment->amount) }}"
-                    class="form-input w-full" name="amount" required>
+                    class="form-input w-full" name="amount" required autofocus autocomplete="on">
 
                 @error('amount') <p class="text-red-500">{{ $message }}</p> @enderror
             </div>
@@ -63,13 +64,13 @@
     </form>
 
     <div class="text-sm">
-       <a href="{{ route('unsettled-payment.index', $collection) }}" class="text-blue-500 underline">
-            > Unsettled balances (0)
+        <a href="{{ route('unsettled-payment.index', $collection) }}" class="text-blue-500 underline">
+            > Unsettled balances ({{ $collection->unsettledPayments()->count() }})
         </a> <br>
 
-       <a href="{{ route('collection.show', $collection) }}" class="text-blue-500 underline">
-        > View list
-       </a>
+        <a href="{{ route('collection.show', $collection) }}" class="text-blue-500 underline">
+            > View list
+        </a>
     </div>
 </div>
 @endsection

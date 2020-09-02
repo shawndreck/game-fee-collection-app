@@ -28,15 +28,27 @@ class PaymentController extends Controller
     public function store(PaymentStoreRequest $request)
     {
         $payment = Payment::create($request->validated());
-
-        $request->session()->flash('payment.name', $payment->name);
-
+        $request->session()->flash('success', "$payment->name paid");
         return redirect()->route('payment.new', $payment->collection);
     }
     public function edit(Payment $payment)
     {
-
         $collection = $payment->collection;
-        return view('payment.edit', compact(['payment','collection']));
+        return view('payment.edit', compact(['payment', 'collection']));
+    }
+
+    public function update(PaymentStoreRequest $request, Payment $payment)
+    {
+        $payment->fill($request->validated())->save();
+        $request->session()->flash('success', "Updated payment for $payment->name");
+        return redirect()->route('unsettled-payment.index', $payment->collection);
+    }
+
+    public function destroy(Payment $payment)
+    {
+        $payment->delete();
+        request()->session()->flash("success", "Deleted payment for {$payment->name}");
+        $collection = $payment->collection;
+        return redirect()->route('collection.show', $collection);
     }
 }

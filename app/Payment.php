@@ -32,4 +32,17 @@ class Payment extends Model
     {
         return $this->belongsTo(\App\Collection::class);
     }
+
+    public function difference()
+    {
+        if (!$this->collection) {
+            return 0;
+        }
+
+        if ($this->collection && !$this->amount) {
+            return $this->collection->perPlayer();
+        }
+
+        return $this->collection->perPlayer() - $this->amount;
+    }
 }
