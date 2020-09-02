@@ -33,4 +33,10 @@ class PaymentController extends Controller
 
         return redirect()->route('payment.new', $payment->collection);
     }
+    public function edit(Payment $payment)
+    {
+
+        $collection = $payment->collection;
+        return view('payment.edit', compact(['payment','collection']));
+    }
 }
