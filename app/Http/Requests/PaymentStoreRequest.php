@@ -25,9 +25,13 @@ class PaymentStoreRequest extends FormRequest
     public function rules()
     {
         $rule = Rule::unique('payments', 'name');
-
-        if ($payment = $this->route('payment')) {
+        $payment = $this->route('payment');
+        if ($payment) {
             $rule->ignore($payment);
+        }
+
+        if ($collection  = $this->get('collection_id')) {
+            $rule->where('collecting_id', $collection);
         }
 
         return [
